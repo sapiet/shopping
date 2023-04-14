@@ -12,33 +12,40 @@ createApp({
     },
 
     mounted() {
-        this.setItems(JSON.parse(localStorage.getItem('items')), false);
+        this.setItems(this.getItems(), false);
     },
 
     methods: {
         add(event) {
             event.preventDefault();
 
-            let items = JSON.parse(localStorage.getItem('items'));
-            console.log(items);
+            try {
+                const items = this.getItems();
 
-            if (typeof items !== 'object') {
+                items.push({
+                    name: this.currentName,
+                    quantity: this.currentQuantity,
+                    price: this.currentPrice,
+                });
+
+                this.setItems(items, true)
+
+                this.currentName = null;
+                this.currentQuantity = 1;
+                this.currentPrice = null;
+            } catch (error) {
+                alert(error);
+            }
+        },
+
+        getItems() {
+            let items = JSON.parse(localStorage.getItem('items'));
+
+            if (typeof items !== 'object' || null === items) {
                 items = [];
             }
-            console.log(items);
 
-            items.push({
-                name: this.currentName,
-                quantity: this.currentQuantity,
-                price: this.currentPrice,
-            });
-            console.log(items);
-
-            this.setItems(items, true)
-
-            this.currentName = null;
-            this.currentQuantity = 1;
-            this.currentPrice = null;
+            return items;
         },
 
         setItems(items, addInLocalStorage) {
