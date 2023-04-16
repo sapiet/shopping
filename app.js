@@ -51,7 +51,7 @@ createApp({
         setItems(items, addInLocalStorage) {
             let total = 0;
             items.map(item => {
-                item.total = item.quantity * item.price;
+                item.total = item.quantity * (item.price * 100) / 100;
                 total += item.total;
             })
             this.items = items;
