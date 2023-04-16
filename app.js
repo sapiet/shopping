@@ -68,7 +68,7 @@ createApp({
         },
 
         clear() {
-            this.setItems([])
+            this.setItems([], true)
         }
     }
 }).mount('#app')
